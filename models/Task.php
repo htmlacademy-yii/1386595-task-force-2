@@ -1,51 +1,51 @@
 <?php
 class Task
 {
-  const STATUS_NEW = 'new';
-  const STATUS_CANCELLED = 'cancelled';
-  const STATUS_PROCESS = 'in process';
-  const STATUS_COMPLETE = 'complete';
-  const STATUS_FAILED = 'failed';
+    const STATUS_NEW = 'new';
+    const STATUS_CANCELLED = 'cancelled';
+    const STATUS_IN_PROCESS = 'inProcess';
+    const STATUS_COMPLETED = 'completed';
+    const STATUS_FAILED = 'failed';
 
-  const ACTION_CANCEL = 'cancel';
-  const ACTION_RESPOND = 'respond';
-  const ACTION_COMPLETE = 'complete';
-  const ACTION_REFUSE = 'refuse';
+    const ACTION_CANCEL = 'cancel';
+    const ACTION_RESPOND = 'respond';
+    const ACTION_COMPLETE = 'complete';
+    const ACTION_REFUSE = 'refuse';
 
-  private $customerId;
-  private $executorId;
+    private $customerId;
+    private $executorId;
 
-  public function __construct($customerId, $executorId)
-  {
-    $this->customerId = $customerId;
-    $this->executorId = $executorId;
-  }
+    public function __construct($customerId, $executorId)
+    {
+        $this->customerId = $customerId;
+        $this->executorId = $executorId;
+    }
 
-  public function getStatus()
-  {
-    $statuses = ['Новое', 'Отменено', 'В работе', 'Выполнено', 'Провалено'];
-  }
+    public function getStatus()
+    {
+        $statuses = ['Новое', 'Отменено', 'В работе', 'Выполнено', 'Провалено'];
+    }
 
-  public function getAction()
-  {
-    $actions = ['Отменить', 'Откликнуться', 'Выполнено', 'Отказаться'];
-  }
+    public function getAction()
+    {
+        $actions = ['Отменить', 'Откликнуться', 'Выполнено', 'Отказаться'];
+    }
 }
 
-/* 
+/*
 > Необходимо написать класс, который будет:
 Определять список из всех доступных действий и статусов;
 Возвращать имя статуса, в который перейдёт задание после выполнения конкретного действия;
 Определять список доступных действий в текущем статусе;
 Хранить текущий статус задания;
-Хранить ID исполнителя и ID заказчика. 
+Хранить ID исполнителя и ID заказчика.
 
 > Детали реализации класса
 - в виде констант в классе должны быть перечислены все возможные действия и статусы.
 Константа определяет внутреннее имя для статуса/действия.
 
-    $required = ['title', 'description'];
-    $fields = array_merge($required, array_keys($_POST));
+$required = ['title', 'description'];
+$fields = array_merge($required, array_keys($_POST));
 
 - класс имеет методы для возврата «карты» статусов и действий. Карта — это ассоциативный массив, где ключ — внутреннее имя, а значение — названия статуса/действия на русском.
 - во внутренних свойствах класс хранит ID исполнителя и ID заказчика. Эти значения класс получает в своём конструкторе.
@@ -58,4 +58,4 @@ class Task
 3. Обсудите это с наставником;
 4. Добавьте реализацию пустым методам;
 5. Проверьте корректность работы на тестовом сценарии.
-*/
+ */
