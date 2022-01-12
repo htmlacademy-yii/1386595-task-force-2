@@ -31,21 +31,25 @@ class Task
         $actions = ['Отменить', 'Откликнуться', 'Выполнено', 'Отказаться'];
     }
 
+    // Возвращает "карту" доступных статусов
     public function getStatusesMap()
     {
 
     }
 
+    // Возвращает "карту" доступных действий
     public function getActionsMap()
     {
 
     }
 
+    // Возвращает имя статуса, в который перейдёт задание после выполнения действия $action
     public function getNewStatus($action)
     {
 
     }
 
+    // Определяет список доступных действий в текущем статусе
     public function getAvailableActions($status)
     {
 
