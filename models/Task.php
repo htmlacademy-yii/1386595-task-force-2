@@ -21,31 +21,21 @@ class Task
         $this->executorId = $executorId;
     }
 
-    // public function getStatus()
-    // {
-    //     $statuses = ['Новое', 'Отменено', 'В работе', 'Выполнено', 'Провалено'];
-    // }
-
-    // public function getAction()
-    // {
-    //     $actions = ['Отменить', 'Откликнуться', 'Выполнено', 'Отказаться'];
-    // }
-
     // Возвращает "карту" доступных статусов
     public function getStatusesMap()
     {
         $statuses =
             [
-            'STATUS_NEW' => 'Новое',
-            'STATUS_CANCELLED' => 'Отменено',
-            'STATUS_IN_PROCESS' => 'В работе',
-            'STATUS_COMPLETED' => 'Выполнено',
-            'STATUS_FAILED' => 'Провалено',
+            self::STATUS_NEW => 'Новое',
+            self::STATUS_CANCELLED => 'Отменено',
+            self::STATUS_IN_PROCESS => 'В работе',
+            self::STATUS_COMPLETED => 'Выполнено',
+            self::STATUS_FAILED => 'Провалено',
         ];
 
-        echo "Доступные статусы: <br>";
-        foreach ($statuses as $var => $status) {
-            echo "-> " . $status . "<br>";
+        //return "Доступные статусы: <br>";
+        foreach ($statuses as $key => $status) {
+            return $key . " -> " . $status . "<br>";
         }
     }
 
@@ -53,15 +43,15 @@ class Task
     public function getActionsMap()
     {
         $actions = [
-            'ACTION_CANCEL' => 'Отменить',
-            'ACTION_RESPOND' => 'Откликнуться',
-            'ACTION_COMPLETE' => 'Выполнено',
-            'ACTION_REFUSE' => 'Отказаться',
+            self::ACTION_CANCEL => 'Отменить',
+            self::ACTION_RESPOND => 'Откликнуться',
+            self::ACTION_COMPLETE => 'Выполнено',
+            self::ACTION_REFUSE => 'Отказаться',
         ];
 
-        echo "Доступные действия: <br>";
-        foreach ($actions as $var => $action) {
-            echo "-> " . $action . "<br>";
+        //return "Доступные действия: <br>";
+        foreach ($actions as $key => $action) {
+            return $key . " -> " . $action . "<br>";
         }
     }
 
@@ -69,57 +59,56 @@ class Task
     public function getNewStatus($action)
     {
         switch ($action) {
-            case 'Отменить':
+            case self::ACTION_CANCEL:
                 $newStatus = 'отменено';
+                return $newStatus . "<br>";
                 break;
-            case 'Откликнуться':
+            case self::ACTION_RESPOND:
                 $newStatus = 'в работе';
+                return $newStatus . "<br>";
                 break;
-            case 'Выполнено':
+            case self::ACTION_COMPLETE:
                 $newStatus = 'выполнено';
+                return $newStatus . "<br>";
                 break;
-            case 'Отказаться':
+            case self::ACTION_REFUSE:
                 $newStatus = 'провалено';
+                return $newStatus . "<br>";
                 break;
+            default:
+                return "Указано некорректное действие.<br>Выберите: cancel, respond, complete или refuse";
         }
-
-        echo "Новый статус задания: $newStatus <br>";
-
     }
 
     // Определяет список доступных действий в текущем статусе
     public function getAvailableActions($status)
     {
         switch ($status) {
-            case 'Новое':
+            case self::STATUS_NEW:
                 $availableActions = ['Отменить', 'Откликнуться'];
                 break;
-            case 'Отменено':
+            case self::STATUS_CANCELLED:
                 $availableActions = ['нет доступных действий'];
                 break;
-            case 'В работе':
+            case self::STATUS_IN_PROCESS:
                 $availableActions = ['Выполнено', 'Отказаться'];
                 break;
-            case 'Выполнено':
+            case self::STATUS_COMPLETED:
                 $availableActions = ['нет доступных действий'];
                 break;
-            case 'Провалено':
+            case self::STATUS_FAILED:
                 $availableActions = ['нет доступных действий'];
                 break;
         }
 
-        echo "Список доступных действий: <br>";
-        foreach ($availableActions as $status) {
-            echo "-> " . $status . "<br>";
+        //return "Список доступных действий: <br>";
+        foreach ($availableActions as $action) {
+            echo "-> " . $action . "<br>";
         }
 
     }
 
 }
-
-$testTask = new Task(503, 354);
-$testTask->getNewStatus('Откликнуться');
-$testTask->getAvailableActions('В работе');
 
 /*
 > Необходимо написать класс, который будет:
