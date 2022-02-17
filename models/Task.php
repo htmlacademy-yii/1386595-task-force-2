@@ -60,23 +60,19 @@ class Task
     {
         switch ($action) {
             case self::ACTION_CANCEL:
-                $newStatus = 'отменено';
-                return $newStatus . "<br>";
+                return self::STATUS_CANCELLED . "<br>";
                 break;
             case self::ACTION_RESPOND:
-                $newStatus = 'в работе';
-                return $newStatus . "<br>";
+                return self::STATUS_IN_PROCESS . "<br>";
                 break;
             case self::ACTION_COMPLETE:
-                $newStatus = 'выполнено';
-                return $newStatus . "<br>";
+                return self::STATUS_COMPLETED . "<br>";
                 break;
             case self::ACTION_REFUSE:
-                $newStatus = 'провалено';
-                return $newStatus . "<br>";
+                return self::STATUS_FAILED . "<br>";
                 break;
             default:
-                return "Указано некорректное действие.<br>Выберите: cancel, respond, complete или refuse";
+                return "Указано некорректное действие. <br>";
         }
     }
 
@@ -85,27 +81,21 @@ class Task
     {
         switch ($status) {
             case self::STATUS_NEW:
-                $availableActions = ['Отменить', 'Откликнуться'];
+                return self::ACTION_CANCEL . ", " . self::ACTION_RESPOND;
                 break;
             case self::STATUS_CANCELLED:
-                $availableActions = ['нет доступных действий'];
+                return "нет доступных действий <br>";
                 break;
             case self::STATUS_IN_PROCESS:
-                $availableActions = ['Выполнено', 'Отказаться'];
+                return self::ACTION_COMPLETE . ", " . self::ACTION_REFUSE;
                 break;
             case self::STATUS_COMPLETED:
-                $availableActions = ['нет доступных действий'];
+                return "нет доступных действий <br>";
                 break;
             case self::STATUS_FAILED:
-                $availableActions = ['нет доступных действий'];
+                return "нет доступных действий <br>";
                 break;
         }
-
-        //return "Список доступных действий: <br>";
-        foreach ($availableActions as $action) {
-            echo "-> " . $action . "<br>";
-        }
-
     }
 
 }
