@@ -33,10 +33,7 @@ class Task
             self::STATUS_FAILED => 'Провалено',
         ];
 
-        //return "Доступные статусы: <br>";
-        foreach ($statuses as $key => $status) {
-            return $key . " -> " . $status . "<br>";
-        }
+        return $statuses;
     }
 
     // Возвращает "карту" доступных действий
@@ -49,10 +46,7 @@ class Task
             self::ACTION_REFUSE => 'Отказаться',
         ];
 
-        //return "Доступные действия: <br>";
-        foreach ($actions as $key => $action) {
-            return $key . " -> " . $action . "<br>";
-        }
+        return $actions;
     }
 
     // Возвращает имя статуса, в который перейдёт задание после выполнения действия $action
@@ -60,19 +54,19 @@ class Task
     {
         switch ($action) {
             case self::ACTION_CANCEL:
-                return self::STATUS_CANCELLED . "<br>";
+                return self::STATUS_CANCELLED;
                 break;
             case self::ACTION_RESPOND:
-                return self::STATUS_IN_PROCESS . "<br>";
+                return self::STATUS_IN_PROCESS;
                 break;
             case self::ACTION_COMPLETE:
-                return self::STATUS_COMPLETED . "<br>";
+                return self::STATUS_COMPLETED;
                 break;
             case self::ACTION_REFUSE:
-                return self::STATUS_FAILED . "<br>";
+                return self::STATUS_FAILED;
                 break;
             default:
-                return "Указано некорректное действие. <br>";
+                return false;
         }
     }
 
@@ -81,19 +75,21 @@ class Task
     {
         switch ($status) {
             case self::STATUS_NEW:
-                return self::ACTION_CANCEL . ", " . self::ACTION_RESPOND;
+                $statuses = [self::ACTION_CANCEL, self::ACTION_RESPOND];
+                return $statuses;
                 break;
             case self::STATUS_CANCELLED:
-                return "нет доступных действий <br>";
+                return false;
                 break;
             case self::STATUS_IN_PROCESS:
-                return self::ACTION_COMPLETE . ", " . self::ACTION_REFUSE;
+                $statuses = [self::ACTION_COMPLETE, self::ACTION_REFUSE];
+                return $statuses;
                 break;
             case self::STATUS_COMPLETED:
-                return "нет доступных действий <br>";
+                return false;
                 break;
             case self::STATUS_FAILED:
-                return "нет доступных действий <br>";
+                return false;
                 break;
         }
     }
