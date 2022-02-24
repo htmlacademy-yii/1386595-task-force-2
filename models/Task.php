@@ -1,4 +1,6 @@
 <?php
+namespace businessLogic;
+
 class Task
 {
     const STATUS_NEW = 'new';
