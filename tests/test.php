@@ -1,5 +1,5 @@
 <?php
-require_once "vendor/autoload.php";
+require_once "../vendor/autoload.php";
 
 $testTask = new businessLogic\Task(503, 354);
 echo "Проверка: getNewStatus(Task::ACTION_COMPLETE) <br>Ожидаем: completed<br>Результат: ";
