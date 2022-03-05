@@ -9,7 +9,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "businessLogic\\": "models/"
+      "app\\": "models/"
     }
   },
   "require": {}

@@ -1,5 +1,5 @@
 <?php
-namespace businessLogic;
+namespace app\models;
 
 class Task
 {
