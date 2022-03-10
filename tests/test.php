@@ -1,4 +1,6 @@
 <?php
+require "../vendor/autoload.php";
+
 use app\models\Task;
 
 $testTask = new Task(503, 354);
