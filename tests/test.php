@@ -1,6 +1,7 @@
 <?php
+require "../vendor/autoload.php";
 
-require '../models/Task.php';
+use app\models\Task;
 
 $testTask = new Task(503, 354);
 echo "Проверка: getNewStatus(Task::ACTION_COMPLETE) <br>Ожидаем: completed<br>Результат: ";

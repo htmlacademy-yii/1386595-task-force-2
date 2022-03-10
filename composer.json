@@ -1,0 +1,16 @@
+{
+  "name": "kon/1386595-task-force-2",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Kurbatova Olia",
+      "email": "kurbatova.olia@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "app\\": ""
+    }
+  },
+  "require": {}
+}
