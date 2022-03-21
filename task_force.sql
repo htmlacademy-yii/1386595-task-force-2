@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 17 2022 г., 11:18
+-- Время создания: Мар 21 2022 г., 07:59
 -- Версия сервера: 8.0.24
 -- Версия PHP: 8.0.8
 
@@ -82,6 +82,18 @@ CREATE TABLE `tasks` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `tasks_to_categories`
+--
+
+CREATE TABLE `tasks_to_categories` (
+  `id` int NOT NULL,
+  `task_id` int NOT NULL,
+  `category_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `users`
 --
 
@@ -94,6 +106,30 @@ CREATE TABLE `users` (
   `birthdate` date NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `users_to_categories`
+--
+
+CREATE TABLE `users_to_categories` (
+  `id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `category_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `users_to_cities`
+--
+
+CREATE TABLE `users_to_cities` (
+  `id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `city_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
@@ -125,9 +161,27 @@ ALTER TABLE `tasks`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `tasks_to_categories`
+--
+ALTER TABLE `tasks_to_categories`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `users`
 --
 ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `users_to_categories`
+--
+ALTER TABLE `users_to_categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `users_to_cities`
+--
+ALTER TABLE `users_to_cities`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -159,10 +213,68 @@ ALTER TABLE `tasks`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT для таблицы `tasks_to_categories`
+--
+ALTER TABLE `tasks_to_categories`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `users_to_categories`
+--
+ALTER TABLE `users_to_categories`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `users_to_cities`
+--
+ALTER TABLE `users_to_cities`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `categories`
+--
+ALTER TABLE `categories`
+  ADD CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`id`) REFERENCES `users_to_categories` (`id`);
+
+--
+-- Ограничения внешнего ключа таблицы `cities`
+--
+ALTER TABLE `cities`
+  ADD CONSTRAINT `cities_ibfk_1` FOREIGN KEY (`id`) REFERENCES `users_to_cities` (`id`);
+
+--
+-- Ограничения внешнего ключа таблицы `tasks`
+--
+ALTER TABLE `tasks`
+  ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`id`) REFERENCES `tasks_to_categories` (`id`);
+
+--
+-- Ограничения внешнего ключа таблицы `tasks_to_categories`
+--
+ALTER TABLE `tasks_to_categories`
+  ADD CONSTRAINT `tasks_to_categories_ibfk_1` FOREIGN KEY (`id`) REFERENCES `categories` (`id`);
+
+--
+-- Ограничения внешнего ключа таблицы `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`id`) REFERENCES `users_to_categories` (`id`);
+
+--
+-- Ограничения внешнего ключа таблицы `users_to_cities`
+--
+ALTER TABLE `users_to_cities`
+  ADD CONSTRAINT `users_to_cities_ibfk_1` FOREIGN KEY (`id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
