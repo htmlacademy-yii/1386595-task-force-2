@@ -16,6 +16,7 @@ class Task
 
     private $customerId;
     private $executorId;
+    private $userID;
 
     public function __construct($customerId, $executorId)
     {
@@ -73,19 +74,29 @@ class Task
     }
 
     // Определяет список доступных действий в текущем статусе
-    public function getAvailableActions($status)
+    public function getAvailableActions($status, $userID, $customerId, $executorId)
     {
         switch ($status) {
             case self::STATUS_NEW:
-                $statuses = [self::ACTION_CANCEL, self::ACTION_RESPOND];
-                return $statuses;
+                $action = new ActionCancel;
+                if ($action->checkUserRole($userID, $customerId, $executorId)) {
+                    return $action->getActionName();
+                } else {
+                    $action = new ActionRespond;
+                    return $action->getActionName();
+                }
                 break;
             case self::STATUS_CANCELLED:
                 return false;
                 break;
             case self::STATUS_IN_PROCESS:
-                $statuses = [self::ACTION_COMPLETE, self::ACTION_REFUSE];
-                return $statuses;
+                $action = new ActionComplete;
+                if ($action->checkUserRole($userID, $customerId, $executorId)) {
+                    return $action->getActionName();
+                } else {
+                    $action = new ActionRefuse;
+                    return $action->getActionName();
+                }
                 break;
             case self::STATUS_COMPLETED:
                 return false;
@@ -97,27 +108,3 @@ class Task
     }
 
 }
-
-/*
-> Необходимо написать класс, который будет:
-Определять список из всех доступных действий и статусов;
-Возвращать имя статуса, в который перейдёт задание после выполнения конкретного действия;
-Определять список доступных действий в текущем статусе;
-Хранить текущий статус задания;
-Хранить ID исполнителя и ID заказчика.
-
-> Детали реализации класса
-+ в виде констант в классе должны быть перечислены все возможные действия и статусы.
-Константа определяет внутреннее имя для статуса/действия.
-? класс имеет методы для возврата «карты» статусов и действий. Карта — это ассоциативный массив, где ключ — внутреннее имя, а значение — названия статуса/действия на русском.
-+ во внутренних свойствах класс хранит ID исполнителя и ID заказчика. Эти значения класс получает в своём конструкторе.
-+ класс имеет метод для получения статуса, в которой он перейдёт после выполнения указанного действия
-? класс имеет метод для получения доступных действий для указанного статуса
-
-> Постарайтесь придерживаться следующего плана:
-1. Посмотрите на список всех доступных действий и статусов в техническом задании;
-2. Набросайте публичный интерфейс класса (публичные методы, свойства конструктор: всё без реализации самих методов);
-3. Обсудите это с наставником;
-4. Добавьте реализацию пустым методам;
-5. Проверьте корректность работы на тестовом сценарии.
- */
