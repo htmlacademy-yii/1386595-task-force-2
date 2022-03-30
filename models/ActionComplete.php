@@ -3,18 +3,18 @@ namespace app\models;
 
 class ActionComplete extends Action
 {
-    public function getActionName()
+    public function getName()
     {
         return "Выполнено";
     }
 
-    public function getInnerActionName()
+    public function getInnerName()
     {
         return "complete";
     }
 
-    public function checkUserRole($userID, $customerID, $executorID)
+    public function checkUserRole($userId, $customerId, $executorId)
     {
-        return ($userID == $customerID) ? true : false;
+        return ($userId == $customerId) ? true : false;
     }
 }

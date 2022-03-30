@@ -3,16 +3,12 @@ namespace app\models;
 
 abstract class Action
 {
-    public $userID;
-    public $customerID;
-    public $executorID;
-
     // возвращает название действия
-    abstract public function getActionName();
+    abstract public function getName();
 
     // возвращает внутреннее имя действия
-    abstract public function getInnerActionName();
+    abstract public function getInnerName();
 
     // проверка прав (сравнивает id юзера/id заказчика/id исполнителя?)
-    abstract public function checkUserRole($userID, $customerID, $executorID);
+    abstract public function checkUserRole($userId, $customerId, $executorId);
 }

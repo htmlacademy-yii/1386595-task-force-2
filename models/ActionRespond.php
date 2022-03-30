@@ -3,18 +3,18 @@ namespace app\models;
 
 class ActionRespond extends Action
 {
-    public function getActionName()
+    public function getName()
     {
         return "Откликнуться";
     }
 
-    public function getInnerActionName()
+    public function getInnerName()
     {
         return "respond";
     }
 
-    public function checkUserRole($userID, $customerID, $executorID)
+    public function checkUserRole($userId, $customerId, $executorId)
     {
-        return ($userID == $executorID) ? true : false;
+        return ($userId == $executorId) ? true : false;
     }
 }

@@ -3,18 +3,18 @@ namespace app\models;
 
 class ActionCancel extends Action
 {
-    public function getActionName()
+    public function getName()
     {
         return "Отменить";
     }
 
-    public function getInnerActionName()
+    public function getInnerName()
     {
         return "cancel";
     }
 
-    public function checkUserRole($userID, $customerID, $executorID)
+    public function checkUserRole($userId, $customerId, $executorId)
     {
-        return ($userID == $customerID) ? true : false;
+        return ($userId == $customerId) ? true : false;
     }
 }
