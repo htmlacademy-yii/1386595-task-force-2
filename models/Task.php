@@ -14,12 +14,13 @@ class Task
     const ACTION_COMPLETE = 'complete';
     const ACTION_REFUSE = 'refuse';
 
-    private $customerId;
-    private $executorId;
-    private $userID;
+    public $userId;
+    public $customerId;
+    public $executorId;
 
-    public function __construct($customerId, $executorId)
+    public function __construct($userId, $customerId, $executorId)
     {
+        $this->userId = $userId;
         $this->customerId = $customerId;
         $this->executorId = $executorId;
     }
@@ -74,16 +75,15 @@ class Task
     }
 
     // Определяет список доступных действий в текущем статусе
-    public function getAvailableActions($status, $userID, $customerId, $executorId)
+    public function getAvailableActions($status, $userId, $customerId, $executorId)
     {
         switch ($status) {
             case self::STATUS_NEW:
                 $action = new ActionCancel;
-                if ($action->checkUserRole($userID, $customerId, $executorId)) {
-                    return $action->getActionName();
+                if ($action->checkUserRole($userId, $customerId, $executorId)) {
+                    return new ActionCancel;
                 } else {
-                    $action = new ActionRespond;
-                    return $action->getActionName();
+                    return new ActionRespond;
                 }
                 break;
             case self::STATUS_CANCELLED:
@@ -91,11 +91,10 @@ class Task
                 break;
             case self::STATUS_IN_PROCESS:
                 $action = new ActionComplete;
-                if ($action->checkUserRole($userID, $customerId, $executorId)) {
-                    return $action->getActionName();
+                if ($action->checkUserRole($userId, $customerId, $executorId)) {
+                    return new ActionComplete;
                 } else {
-                    $action = new ActionRefuse;
-                    return $action->getActionName();
+                    return new ActionRefuse;
                 }
                 break;
             case self::STATUS_COMPLETED:
