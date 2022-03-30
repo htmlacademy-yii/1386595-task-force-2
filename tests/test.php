@@ -1,9 +1,13 @@
 <?php
 require "../vendor/autoload.php";
 
+use app\models\ActionCancel;
+use app\models\ActionComplete;
+use app\models\ActionRefuse;
+use app\models\ActionRespond;
 use app\models\Task;
 
-$testTask = new Task(503, 354);
+$testTask = new Task(503, 533, 503); // id юзера, id заказчика, id исполнителя
 echo "Проверка: getNewStatus(Task::ACTION_COMPLETE) - ";
 echo $testTask->getNewStatus(Task::ACTION_COMPLETE) === Task::STATUS_COMPLETED;
 echo "<br>";
@@ -12,20 +16,25 @@ echo $testTask->getNewStatus(Task::ACTION_CANCEL) === Task::STATUS_CANCELLED;
 echo "<br><br>";
 
 echo "Проверка: getAvailableActions(Task::STATUS_NEW), пользователь: заказчик - ";
-echo $testTask->getAvailableActions(Task::STATUS_NEW, 1, 1, 5) === "Отменить";
+print_r($testTask->getAvailableActions(Task::STATUS_NEW, $testTask->userId, $testTask->customerId, $testTask->executorId) == new ActionCancel);
 echo "<br>";
+
 echo "Проверка: getAvailableActions(Task::STATUS_NEW), пользователь: исполнитель - ";
-echo $testTask->getAvailableActions(Task::STATUS_NEW, 1, 5, 1) === "Откликнуться";
+print_r($testTask->getAvailableActions(Task::STATUS_NEW, $testTask->userId, $testTask->customerId, $testTask->executorId) == new ActionRespond);
 echo "<br>";
+
 echo "Проверка: getAvailableActions(Task::STATUS_IN_PROCESS), пользователь: заказчик - ";
-echo $testTask->getAvailableActions(Task::STATUS_IN_PROCESS, 1, 1, 5) === "Выполнено";
+print_r($testTask->getAvailableActions(Task::STATUS_IN_PROCESS, $testTask->userId, $testTask->customerId, $testTask->executorId) == new ActionComplete);
 echo "<br>";
+
 echo "Проверка: getAvailableActions(Task::STATUS_IN_PROCESS), пользователь: исполнитель - ";
-echo $testTask->getAvailableActions(Task::STATUS_IN_PROCESS, 1, 5, 1) === "Отказаться";
+print_r($testTask->getAvailableActions(Task::STATUS_IN_PROCESS, $testTask->userId, $testTask->customerId, $testTask->executorId) == new ActionRefuse);
 echo "<br>";
+
 echo "Проверка: getAvailableActions(Task::STATUS_COMPLETED), пользователь: заказчик - ";
-echo $testTask->getAvailableActions(Task::STATUS_COMPLETED, 1, 1, 5) === false;
+echo $testTask->getAvailableActions(Task::STATUS_COMPLETED, $testTask->userId, $testTask->customerId, $testTask->executorId) === false;
 echo "<br>";
+
 echo "Проверка: getAvailableActions(Task::STATUS_COMPLETED), пользователь: исполнитель - ";
-echo $testTask->getAvailableActions(Task::STATUS_COMPLETED, 1, 5, 1) === false;
+echo $testTask->getAvailableActions(Task::STATUS_COMPLETED, $testTask->userId, $testTask->customerId, $testTask->executorId) === false;
 echo "<br>";
