@@ -15,6 +15,6 @@ class ActionComplete extends Action
 
     public function checkUserRole($userId, $customerId, $executorId)
     {
-        return ($userId == $customerId) ? true : false;
+        return $userId == $customerId;
     }
 }

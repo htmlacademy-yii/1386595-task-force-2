@@ -15,6 +15,6 @@ class ActionRefuse extends Action
 
     public function checkUserRole($userId, $customerId, $executorId)
     {
-        return ($userId == $executorId) ? true : false;
+        return $userId == $executorId;
     }
 }
