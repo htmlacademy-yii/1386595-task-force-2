@@ -16,19 +16,19 @@ echo $testTask->getNewStatus(Task::ACTION_CANCEL) === Task::STATUS_CANCELLED;
 echo "<br><br>";
 
 echo "Проверка: getAvailableActions(Task::STATUS_NEW), пользователь: заказчик - ";
-print_r($testTask->getAvailableActions(Task::STATUS_NEW, $testTask->userId, $testTask->customerId, $testTask->executorId) == new ActionCancel);
+print_r($testTask->getAvailableActions(Task::STATUS_NEW, $testTask->userId, $testTask->customerId, $testTask->executorId) instanceof ActionCancel);
 echo "<br>";
 
 echo "Проверка: getAvailableActions(Task::STATUS_NEW), пользователь: исполнитель - ";
-print_r($testTask->getAvailableActions(Task::STATUS_NEW, $testTask->userId, $testTask->customerId, $testTask->executorId) == new ActionRespond);
+print_r($testTask->getAvailableActions(Task::STATUS_NEW, $testTask->userId, $testTask->customerId, $testTask->executorId) instanceof ActionRespond);
 echo "<br>";
 
 echo "Проверка: getAvailableActions(Task::STATUS_IN_PROCESS), пользователь: заказчик - ";
-print_r($testTask->getAvailableActions(Task::STATUS_IN_PROCESS, $testTask->userId, $testTask->customerId, $testTask->executorId) == new ActionComplete);
+print_r($testTask->getAvailableActions(Task::STATUS_IN_PROCESS, $testTask->userId, $testTask->customerId, $testTask->executorId) instanceof ActionComplete);
 echo "<br>";
 
 echo "Проверка: getAvailableActions(Task::STATUS_IN_PROCESS), пользователь: исполнитель - ";
-print_r($testTask->getAvailableActions(Task::STATUS_IN_PROCESS, $testTask->userId, $testTask->customerId, $testTask->executorId) == new ActionRefuse);
+print_r($testTask->getAvailableActions(Task::STATUS_IN_PROCESS, $testTask->userId, $testTask->customerId, $testTask->executorId) instanceof ActionRefuse);
 echo "<br>";
 
 echo "Проверка: getAvailableActions(Task::STATUS_COMPLETED), пользователь: заказчик - ";
