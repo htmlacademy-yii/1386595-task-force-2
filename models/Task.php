@@ -18,7 +18,7 @@ class Task
     public $customerId;
     public $executorId;
 
-    public function __construct($userId, $customerId, $executorId)
+    public function __construct(int $userId, int $customerId, int $executorId)
     {
         $this->userId = $userId;
         $this->customerId = $customerId;
@@ -26,7 +26,7 @@ class Task
     }
 
     // Возвращает "карту" доступных статусов
-    public function getStatusesMap()
+    public function getStatusesMap(): array
     {
         $statuses =
             [
@@ -41,7 +41,7 @@ class Task
     }
 
     // Возвращает "карту" доступных действий
-    public function getActionsMap()
+    public function getActionsMap(): array
     {
         $actions = [
             self::ACTION_CANCEL => 'Отменить',
