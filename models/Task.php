@@ -1,6 +1,8 @@
 <?php
 namespace app\models;
 
+use app\exceptions\TaskException;
+
 class Task
 {
     const STATUS_NEW = 'new';
@@ -18,7 +20,7 @@ class Task
     public $customerId;
     public $executorId;
 
-    public function __construct($userId, $customerId, $executorId)
+    public function __construct(int $userId, int $customerId, int $executorId)
     {
         $this->userId = $userId;
         $this->customerId = $customerId;
@@ -26,7 +28,7 @@ class Task
     }
 
     // Возвращает "карту" доступных статусов
-    public function getStatusesMap()
+    public function getStatusesMap(): array
     {
         $statuses =
             [
@@ -41,7 +43,7 @@ class Task
     }
 
     // Возвращает "карту" доступных действий
-    public function getActionsMap()
+    public function getActionsMap(): array
     {
         $actions = [
             self::ACTION_CANCEL => 'Отменить',
@@ -56,6 +58,10 @@ class Task
     // Возвращает имя статуса, в который перейдёт задание после выполнения действия $action
     public function getNewStatus($action)
     {
+        if (!array_key_exists($action, $this->getActionsMap())) {
+            throw new TaskException("Такого действия не существует");
+        }
+
         switch ($action) {
             case self::ACTION_CANCEL:
                 return self::STATUS_CANCELLED;
@@ -77,6 +83,10 @@ class Task
     // Определяет список доступных действий в текущем статусе
     public function getAvailableActions($status, $userId, $customerId, $executorId)
     {
+        if (!array_key_exists($status, $this->getStatusesMap())) {
+            throw new TaskException("Такого статуса не существует");
+        }
+
         switch ($status) {
             case self::STATUS_NEW:
                 $action = new ActionCancel;
