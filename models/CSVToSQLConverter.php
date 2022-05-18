@@ -17,7 +17,6 @@ class CSVToSQLConverter
 
         if (!file_exists($directory) && !mkdir($directory)) {
             throw new TaskException('Не удалось создать директорию');
-            mkdir($directory);
         }
 
         try {
@@ -30,13 +29,15 @@ class CSVToSQLConverter
 
         $headerData = implode(', ', $this->getHeaderData());
 
-        $values[] =
-            sprintf(
-            "\t(%s)",
-            implode(', ', array_map(function ($item) {
-                return "'{$item}'";
-            }, $this->CSVFileObject->fgetcsv(',')))
-        );
+        while (!$this->CSVFileObject->eof()) {
+            $values[] =
+                sprintf(
+                "\t(%s)",
+                implode(', ', array_map(function ($item) {
+                    return "'{$item}'";
+                }, $this->CSVFileObject->fgetcsv(',')))
+            );
+        }
 
         $newFile = basename($file, '.csv');
 
@@ -46,12 +47,26 @@ class CSVToSQLConverter
             throw new TaskException('Не удалось создать или записать в файл');
         }
 
-        $SQLFileObject->fwrite("INSERT INTO $newFile ($headerData) VALUES {implode(', ' , $values)};");
+        foreach ($values as $row) {
+            $SQLFileObject->fwrite("INSERT INTO $newFile ($headerData) VALUES $row;");
+        }
+
+        // $SQLFileObject->fwrite("
+        // mysqlimport
+        //     --ignore-lines=1
+        //     --fields-terminated-by=,
+        //     --columns='$headerData'
+        //     --local -u root
+        //     -p '$newFile'
+        //     '$file';
+        // ");
+
     }
 
     public function getHeaderData(): ?array
     {
-        $data = $this->CSVFileObject->fgetcsv();
+        $this->CSVFileObject->rewind();
+        $data = $this->CSVFileObject->current();
 
         return $data;
     }
