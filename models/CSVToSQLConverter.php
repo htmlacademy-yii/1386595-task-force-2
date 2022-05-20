@@ -21,7 +21,7 @@ class CSVToSQLConverter
 
         try {
             $this->CSVFileObject = new \SplFileObject($file, 'r');
-        } catch (TaskException) {
+        } catch (TaskException $e) {
             throw new TaskException('Не удалось открыть файл на чтение');
         }
 
@@ -43,7 +43,7 @@ class CSVToSQLConverter
 
         try {
             $SQLFileObject = new \SplFileObject("$directory/$newFile.sql", 'w');
-        } catch (TaskException) {
+        } catch (TaskException $e) {
             throw new TaskException('Не удалось создать или записать в файл');
         }
 
