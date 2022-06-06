@@ -4,8 +4,6 @@
 /** @var string $content */
 
 use app\assets\AppAsset;
-use app\widgets\Alert;
-use yii\bootstrap4\Breadcrumbs;
 use yii\bootstrap4\Html;
 
 AppAsset::register($this);
@@ -19,16 +17,15 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <?php $this->registerCsrfMetaTags()?>
     <title><?=Html::encode($this->title)?></title>
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/landing.css">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/landing.css">
     <?php $this->head()?>
 </head>
 
 <body class="d-flex flex-column h-100 landing">
 <?php $this->beginBody()?>
 
-<div class="table-layout">
-    <header class=" page-header--index">
+<header class=" page-header--index">
         <div class="main-container page-header__container page-header__container--index">
             <div class="page-header__logo--index">
                 <a>
@@ -68,14 +65,10 @@ AppAsset::register($this);
                 </a>
             </div>
         </div>
-    </header>
+</header>
 
 <main role="main" class="flex-shrink-0">
     <div class="main-container">
-        <?=Breadcrumbs::widget([
-    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-])?>
-        <?=Alert::widget()?>
         <?=$content?>
     </div>
 </main>
@@ -144,10 +137,10 @@ AppAsset::register($this);
         </form>
         <button class="form-modal-close" type="button">Закрыть</button>
     </section>
-</div>
+
 
 <div class="overlay"></div>
-<script src="js/landing.js"></script>
+<script src="../js/landing.js"></script>
 
 <?php $this->endBody()?>
 </body>
