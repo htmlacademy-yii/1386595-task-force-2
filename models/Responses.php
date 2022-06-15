@@ -2,8 +2,10 @@
 
 namespace app\models;
 
+use Yii;
+
 /**
- * This is the model class for table "responses".
+ * This is the model class for table "{{%responses}}".
  *
  * @property int $id
  * @property int $user_id
@@ -13,14 +15,13 @@ namespace app\models;
  * @property string $updated_at
  */
 class Responses extends \yii\db\ActiveRecord
-
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'responses';
+        return '{{%responses}}';
     }
 
     /**
@@ -48,14 +49,5 @@ class Responses extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
-    }
-
-    /**
-     * {@inheritdoc}
-     * @return ResponsesQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new ResponsesQuery(get_called_class());
     }
 }

@@ -2,23 +2,28 @@
 
 namespace app\models;
 
+use Yii;
+
 /**
- * This is the model class for table "cities".
+ * This is the model class for table "{{%cities}}".
  *
  * @property int $id
  * @property string $name
  * @property float $latitude
  * @property float $longitude
+ *
+ * @property Users $id0
+ * @property Categories[] $ids
+ * @property Users $users
  */
 class Cities extends \yii\db\ActiveRecord
-
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'cities';
+        return '{{%cities}}';
     }
 
     /**
@@ -30,6 +35,7 @@ class Cities extends \yii\db\ActiveRecord
             [['name', 'latitude', 'longitude'], 'required'],
             [['latitude', 'longitude'], 'number'],
             [['name'], 'string', 'max' => 255],
+            [['id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['id' => 'id']],
         ];
     }
 
@@ -47,11 +53,32 @@ class Cities extends \yii\db\ActiveRecord
     }
 
     /**
-     * {@inheritdoc}
-     * @return CitiesQuery the active query used by this AR class.
+     * Gets query for [[Id0]].
+     *
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function getId0()
     {
-        return new CitiesQuery(get_called_class());
+        return $this->hasOne(Users::className(), ['id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Ids]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIds()
+    {
+        return $this->hasMany(Categories::className(), ['id' => 'id'])->via('users');
+    }
+
+    /**
+     * Gets query for [[Users]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUsers()
+    {
+        return $this->hasOne(Users::className(), ['id' => 'id']);
     }
 }
