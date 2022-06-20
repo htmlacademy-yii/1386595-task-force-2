@@ -19,10 +19,9 @@ use Yii;
  * @property string $updated_at
  *
  * @property Categories $categories
- * @property Categories $id0
- * @property Users[] $ids
  */
 class Tasks extends \yii\db\ActiveRecord
+
 {
     /**
      * {@inheritdoc}
@@ -42,7 +41,6 @@ class Tasks extends \yii\db\ActiveRecord
             [['city_id', 'user_id', 'price'], 'integer'],
             [['deadline', 'created_at', 'updated_at'], 'safe'],
             [['name', 'description', 'status'], 'string', 'max' => 255],
-            [['id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::className(), 'targetAttribute' => ['id' => 'id']],
         ];
     }
 
@@ -72,26 +70,8 @@ class Tasks extends \yii\db\ActiveRecord
      */
     public function getCategories()
     {
-        return $this->hasOne(Categories::className(), ['id' => 'id']);
+        return $this->hasMany(Categories::class, ['id' => 'id'])->
+            viaTable('tasks_to_categories', ['task_id' => 'category_id']);
     }
 
-    /**
-     * Gets query for [[Id0]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getId0()
-    {
-        return $this->hasOne(Categories::className(), ['id' => 'id']);
-    }
-
-    /**
-     * Gets query for [[Ids]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getIds()
-    {
-        return $this->hasMany(Users::className(), ['id' => 'id'])->via('categories');
-    }
 }

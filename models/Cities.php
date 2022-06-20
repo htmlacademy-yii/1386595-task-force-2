@@ -12,11 +12,10 @@ use Yii;
  * @property float $latitude
  * @property float $longitude
  *
- * @property Users $id0
- * @property Categories[] $ids
  * @property Users $users
  */
 class Cities extends \yii\db\ActiveRecord
+
 {
     /**
      * {@inheritdoc}
@@ -35,7 +34,6 @@ class Cities extends \yii\db\ActiveRecord
             [['name', 'latitude', 'longitude'], 'required'],
             [['latitude', 'longitude'], 'number'],
             [['name'], 'string', 'max' => 255],
-            [['id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['id' => 'id']],
         ];
     }
 
@@ -53,32 +51,13 @@ class Cities extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Id0]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getId0()
-    {
-        return $this->hasOne(Users::className(), ['id' => 'id']);
-    }
-
-    /**
-     * Gets query for [[Ids]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getIds()
-    {
-        return $this->hasMany(Categories::className(), ['id' => 'id'])->via('users');
-    }
-
-    /**
      * Gets query for [[Users]].
      *
      * @return \yii\db\ActiveQuery
      */
     public function getUsers()
     {
-        return $this->hasOne(Users::className(), ['id' => 'id']);
+        return $this->hasMany(Users::class, ['id' => 'id'])->
+            viaTable('users_to_cities', ['user_id' => 'city_id']);
     }
 }

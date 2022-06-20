@@ -18,12 +18,9 @@ use Yii;
  *
  * @property Categories $categories
  * @property Cities $cities
- * @property Cities $id0
- * @property Categories $id1
- * @property Tasks[] $ids
- * @property UsersToCities $usersToCities
  */
 class Users extends \yii\db\ActiveRecord
+
 {
     /**
      * {@inheritdoc}
@@ -43,8 +40,6 @@ class Users extends \yii\db\ActiveRecord
             [['phone'], 'integer'],
             [['birthdate', 'created_at', 'updated_at'], 'safe'],
             [['role', 'name', 'email'], 'string', 'max' => 255],
-            [['id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['id' => 'id']],
-            [['id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::className(), 'targetAttribute' => ['id' => 'id']],
         ];
     }
 
@@ -72,7 +67,8 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getCategories()
     {
-        return $this->hasOne(Categories::className(), ['id' => 'id']);
+        return $this->hasMany(Categories::class, ['id' => 'id'])->
+            viaTable('users_to_categories', ['user_id' => 'category_id']);
     }
 
     /**
@@ -80,48 +76,9 @@ class Users extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getCities()
+    public function getCity()
     {
-        return $this->hasOne(Cities::className(), ['id' => 'id']);
-    }
-
-    /**
-     * Gets query for [[Id0]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getId0()
-    {
-        return $this->hasOne(Cities::className(), ['id' => 'id']);
-    }
-
-    /**
-     * Gets query for [[Id1]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getId1()
-    {
-        return $this->hasOne(Categories::className(), ['id' => 'id']);
-    }
-
-    /**
-     * Gets query for [[Ids]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getIds()
-    {
-        return $this->hasMany(Tasks::className(), ['id' => 'id'])->via('categories');
-    }
-
-    /**
-     * Gets query for [[UsersToCities]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUsersToCities()
-    {
-        return $this->hasOne(UsersToCities::className(), ['id' => 'id']);
+        return $this->hasOne(City::class, ['id' => 'id'])->
+            viaTable('users_to_cities', ['user_id' => 'city_id']);
     }
 }
