@@ -4,9 +4,12 @@
 /** @var string $content */
 
 use app\assets\AppAsset;
+use app\assets\LandingAsset;
 use yii\bootstrap4\Html;
 
 AppAsset::register($this);
+LandingAsset::register($this);
+
 ?>
 <?php $this->beginPage()?>
 <!DOCTYPE html>
