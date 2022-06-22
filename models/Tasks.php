@@ -37,7 +37,7 @@ class Tasks extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['city_id', 'user_id', 'name', 'description', 'price', 'deadline', 'status'], 'required'],
+            [['city_id', 'user_id', 'category_id', 'name', 'description', 'price', 'deadline', 'status'], 'required'],
             [['city_id', 'user_id', 'price'], 'integer'],
             [['deadline', 'created_at', 'updated_at'], 'safe'],
             [['name', 'description', 'status'], 'string', 'max' => 255],
@@ -53,6 +53,7 @@ class Tasks extends \yii\db\ActiveRecord
             'id' => 'ID',
             'city_id' => 'City ID',
             'user_id' => 'User ID',
+            'category_id' => 'Category ID',
             'name' => 'Name',
             'description' => 'Description',
             'price' => 'Price',
@@ -68,10 +69,19 @@ class Tasks extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getCategories()
+    public function getCategory()
     {
-        return $this->hasMany(Categories::class, ['id' => 'id'])->
-            viaTable('tasks_to_categories', ['task_id' => 'category_id']);
+        return $this->hasOne(Categories::class, ['id' => 'category_id']);
+    }
+
+    /**
+     * Gets query for [[Cities]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCity()
+    {
+        return $this->hasOne(Cities::class, ['id' => 'city_id']);
     }
 
 }
