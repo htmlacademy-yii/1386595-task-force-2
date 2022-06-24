@@ -8,7 +8,7 @@ use yii\web\Controller;
 
 class TasksController extends Controller
 {
-    public $layout = 'inner.php';
+    public $layout = 'inner';
 
     public function actionIndex()
     {
@@ -18,6 +18,6 @@ class TasksController extends Controller
             throw new TaskException("нет заданий");
         }
 
-        return $this->render('index.php', compact('tasks'));
+        return $this->render('index.php', ['tasks' => $tasks]);
     }
 }
