@@ -13,18 +13,18 @@ $this->title = 'Tasks - TaskForce';
         <?php foreach ($tasks as $task): ?>
         <div class="task-card">
             <div class="header-task">
-                <a  href="#" class="link link--block link--big"><?php echo $task->name; ?></a>
-                <p class="price price--task"><?php echo $task->price; ?> ₽</p>
+                <a  href="#" class="link link--block link--big"><?=$task->name;?></a>
+                <p class="price price--task"><?=$task->price;?> ₽</p>
             </div>
             <p class="info-text">
                 <span class="current-time">
-                    <?php echo Yii::$app->formatter->asRelativeTime($task->updated_at, 'now'); ?>
+                    <?=Yii::$app->formatter->asRelativeTime($task->updated_at, 'now');?>
                 </span>
             </p>
-            <p class="task-text"><?php echo $task->description; ?></p>
+            <p class="task-text"><?=$task->description;?></p>
             <div class="footer-task">
-                <p class="info-text town-text"><?php echo $task->city->name; ?></p>
-                <p class="info-text category-text"><?php echo $task->category->name; ?></p>
+                <p class="info-text town-text"><?=$task->city->name;?></p>
+                <p class="info-text category-text"><?=$task->category->name;?></p>
                 <a href="#" class="button button--black">Смотреть Задание</a>
             </div>
         </div>
